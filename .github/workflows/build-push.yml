@@ -1,0 +1,24 @@
+name: Build & Push on push
+
+on:
+  push:
+    branches: [ main, master ]
+    paths-ignore:
+      - "**/*.md"
+
+jobs:
+  call-reusable:
+    uses: edeori/workflow-base/.github/workflows/reusable-build-push.yml@main
+    with:
+      image_name: "szamlazz-be"
+      context: "."
+      dockerfile: "Dockerfile"
+      platforms: "linux/amd64"
+      # build_args: |
+      #   NODE_ENV=production
+      #   API_BASE_URL=https://api.sajatdomain.hu
+    secrets:
+      REGISTRY: ${{ secrets.REGISTRY }}
+      REGISTRY_USERNAME: ${{ secrets.REGISTRY_USERNAME }}
+      REGISTRY_PASSWORD: ${{ secrets.REGISTRY_PASSWORD }}
+      REGISTRY_NAMESPACE: ${{ secrets.REGISTRY_NAMESPACE }}
